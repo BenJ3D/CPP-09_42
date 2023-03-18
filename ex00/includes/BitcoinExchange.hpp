@@ -6,7 +6,7 @@
 /*   By: bducrocq <bducrocq@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 02:49:09 by bducrocq          #+#    #+#             */
-/*   Updated: 2023/03/18 22:44:22 by bducrocq         ###   ########lyon.fr   */
+/*   Updated: 2023/03/18 23:17:47 by bducrocq         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,9 @@
 # include <stdexcept>
 # include <limits>
 # include <map>
-# define CSV_PATH "./data.csv"
 # define ITMAP std::map<std::string, double>::iterator
 
-
-typedef enum 
-{
-	ERR_BAD_INPUT,
-	ERR_BAD_FIRSTLINE_INPUT,
-	ERR_BAD_FIRSTLINE_DATABASE,
-	ERR_NUMBER_NEGATIVE,
-	ERR_NUMBER_TOO_LARGE,
-	ERR_FAIL_TO_OPEN_DATA,
-	ERR_FAIL_TO_OPEN_INPUT
-} e_error;
+# define CSV_PATH "./data.csv"
 
 class BitcoinExchange
 {
@@ -44,40 +33,41 @@ class BitcoinExchange
 		class FailToOpen : public std::exception
 		{ public: 
 			virtual const char* what() const throw() 
-			{return "\033[0;31mError: could not open file\033[0;37m";}
+			{return "\033[0;31mError: could not open file.\033[0;37m";}
 		};
-
 		class ErrDataBaseFirstLine : public std::exception
 		{ public: 
 			virtual const char* what() const throw() 
-			{return "\033[0;31mError: first line in data.csv is not \"date,exchange_rate\\n\"""\033[0;35mdata.csv\033[0;37m";}
+			{return "\033[0;31mError: first line in data.csv is not \"date,exchange_rate\\n\"""\033[0;35mdata.csv.\033[0;37m";}
 		};
 		class ErrInputFirstLine : public std::exception
 		{ public: 
 			virtual const char* what() const throw() 
-			{return "\033[0;31mError: first line in your input file is not \"date | value\" \033[0;37m";}
+			{return "\033[0;31mError: first line in your input file is not \"date | value\". \033[0;37m";}
 		};
 		class ErrNegativeNumber : public std::exception
 		{ public: 
 			virtual const char* what() const throw() 
-			{return "Error: not a positive number";}
+			{return "\033[0;31mError: not a positive number.\033[0;37m";}
 		};
 		class ErrTooLargeNumber : public std::exception
 		{ public: 
 			virtual const char* what() const throw() 
-			{return "Error: too large a number";}
+			{return "\033[0;31mError: too large a number.\033[0;37m";}
 		};
 		class ErrBadInput : public std::exception
 		{ public: 
 			virtual const char* what() const throw() 
-			{return "Error: bad input => ";}
+			{return "\033[0;31mError: bad input => ";}
 		};
+
+
+
 
 		BitcoinExchange(char const *filePath);
 		~BitcoinExchange();
 
 		float	getBitcoinPrice(std::string const& date);
-
 
 
 	private:
@@ -98,11 +88,7 @@ class BitcoinExchange
 		std::string						_err;
 		std::string						_errDay;
 
-		e_error							_errorType;
-
 };
-
-std::ostream &			operator<<( std::ostream & o, BitcoinExchange const & i );
 
 # define COLOR_BLACK	"\033[0;30m"
 # define COLOR_RED		"\033[0;31m"
