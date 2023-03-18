@@ -6,7 +6,7 @@
 /*   By: bducrocq <bducrocq@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 02:49:08 by bducrocq          #+#    #+#             */
-/*   Updated: 2023/03/18 02:20:18 by bducrocq         ###   ########lyon.fr   */
+/*   Updated: 2023/03/18 19:41:33 by bducrocq         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,17 +116,20 @@ void BitcoinExchange::parsingInput(char const *path)
 
 		if (getline(lineStream, date, '|') && lineStream >> value)
 		{
-			// if (!date.empty() && (date.size() - 1) == ' ')
-			// 	date[date.size() - 1] = '\0'; //TODO: A tester
-			// if (!isDateFormatValid(date))
-			// 	throw std::runtime_error("Error: bad date format for one entry in input file");
 			try
 			{
 				if (!isValueValid(value))
-					throw std::runtime_error("Error: bad value format for one entry in input file");
+				{
+					_errDay = date;
+					throw BadInput();
+				}
 				float quantity = std::strtod(value.c_str(), NULL);
 				std::cout << date << " => " << value << " = " << (getBitcoinPrice(date) * quantity) << std::endl;
-			}  
+			}
+			catch (BadInput const &e)
+			{
+				std::cout << e.what() << _errDay << std::endl;
+			}
 			catch (std::exception const &e)
 			{
 				std::cout << e.what() << std::endl;

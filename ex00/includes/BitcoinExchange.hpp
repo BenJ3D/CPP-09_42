@@ -6,7 +6,7 @@
 /*   By: bducrocq <bducrocq@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 02:49:09 by bducrocq          #+#    #+#             */
-/*   Updated: 2023/03/18 01:23:07 by bducrocq         ###   ########lyon.fr   */
+/*   Updated: 2023/03/18 19:29:12 by bducrocq         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,11 @@ class BitcoinExchange
 			virtual const char* what() const throw() 
 			{return "Error: too large a number";}
 		};
+		class BadInput : public std::exception
+		{ public: 
+			virtual const char* what() const throw() 
+			{return "Error: bad input => ";}
+		};
 
 		BitcoinExchange(char const *filePath);
 		~BitcoinExchange();
@@ -81,7 +86,7 @@ class BitcoinExchange
 		std::map<std::string, double>	_map;
 		std::string						_pathDB;
 		std::string						_err;
-
+		std::string						_errDay;
 		std::ifstream					_fileInput;
 };
 
