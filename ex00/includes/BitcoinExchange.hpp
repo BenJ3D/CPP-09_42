@@ -6,7 +6,7 @@
 /*   By: bducrocq <bducrocq@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 02:49:09 by bducrocq          #+#    #+#             */
-/*   Updated: 2023/03/18 23:17:47 by bducrocq         ###   ########lyon.fr   */
+/*   Updated: 2023/03/18 23:47:38 by bducrocq         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,9 @@ class BitcoinExchange
 		BitcoinExchange(char const *filePath);
 		~BitcoinExchange();
 
-		float	getBitcoinPrice(std::string const& date);
+		float			getBitcoinPrice(std::string const& date);
+		float			getAthBitcoinPrice( void );
+		std::string		getAthBitcoinDate( void );
 
 
 	private:
@@ -75,17 +77,15 @@ class BitcoinExchange
 		BitcoinExchange( BitcoinExchange const & src );
 		BitcoinExchange &		operator=( BitcoinExchange const & rhs );
 
-		void	openAndParseDataBase( void );
-		void	parsingInput( char const *path );
+		void			openAndParseDataBase( void );
+		void			parsingInput( char const *path );
 
-		bool	isDateFormatValid(std::string const& dateString);
-		bool	isValueValid(std::string const &value);
-		bool	isPriceValid(std::string const &price);
+		bool			isDateFormatValid(std::string const& dateString);
+		bool			isValueValid(std::string const &value);
+		bool			isPriceValid(std::string const &price);
 
 		std::map<std::string, double>	_map;
 		std::string						_pathDB;
-		std::ifstream					_fileInput;
-		std::string						_err;
 		std::string						_errDay;
 
 };

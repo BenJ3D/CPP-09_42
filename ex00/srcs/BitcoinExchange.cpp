@@ -6,7 +6,7 @@
 /*   By: bducrocq <bducrocq@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 02:49:08 by bducrocq          #+#    #+#             */
-/*   Updated: 2023/03/18 23:14:23 by bducrocq         ###   ########lyon.fr   */
+/*   Updated: 2023/03/18 23:47:40 by bducrocq         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,26 +151,26 @@ bool BitcoinExchange::isDateFormatValid(std::string const &dateString)
 			if (buffer[buffer.size() - 1] == ' ')
 				buffer.erase(buffer.size() - 1);
 		for(std::string::iterator it = buffer.begin(); it != buffer.end(); it++)
-			if (std::isdigit(*it) == 0) {
-				_err = "Error: date has not digit."; return false; }
+			if (std::isdigit(*it) == 0)
+				return false;
 		if (i != 0)
-			if (buffer.length() != 2){
-				_err = "Error: bad date input."; return false; }
+			if (buffer.length() != 2)
+				return false;
 
 		value[i++] = std::atoi(buffer.c_str());
 		if (i == 3)
 			break ;
 	}
-	if (std::getline(stream, buffer, '-')){ 
-		_err = "Error: date format."; return false; }
-	if (value[0] < 0 || value[1] < 0 || value[2] < 0) {
-		_err = "Error: not a positive number."; return false; }
-	if (value[0] == 0 || value[1] == 0 || value[2] == 0) {
-		_err = "Error: bad date input"; return false; }
-	if (value[1] > 12) {
-		_err = "Error: only 12 months in a year."; return false; }
-	if (value[2] > 31) {
-		_err = "Error: No month has more than 31 days."; return false; }
+	if (std::getline(stream, buffer, '-'))
+		return false; 
+	if (value[0] < 0 || value[1] < 0 || value[2] < 0) 
+		return false; 
+	if (value[0] == 0 || value[1] == 0 || value[2] == 0)
+		return false;
+	if (value[1] > 12)
+		return false;
+	if (value[2] > 31)
+		return false;
 	return true;
 }
 
@@ -236,5 +236,23 @@ float	BitcoinExchange::getBitcoinPrice(std::string const &date)
 	return (static_cast<float>(it->second));
 }
 
+float BitcoinExchange::getAthBitcoinPrice(void)
+{
+	double priceMax = 0.0;
+	for(ITMAP it = _map.begin(); it != _map.end(); it++)
+		if (it->second > priceMax)
+			priceMax = it->second;
+	return static_cast<float>(priceMax);
+}
+
+std::string		BitcoinExchange::getAthBitcoinDate(void)
+{
+	std::string dateATH;
+	float		priceMax = getAthBitcoinPrice();
+	for(ITMAP it = _map.begin(); it != _map.end(); it++)
+		if (it->second == priceMax)
+			dateATH = it->first;
+	return dateATH;
+}
 
 /* ************************************************************************** */

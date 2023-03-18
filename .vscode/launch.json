@@ -7,7 +7,7 @@
 		{
 			"type": "lldb",
 			"request": "launch",
-			"name": "Debug",
+			"name": "ex00_debug",
 			"program": "${workspaceFolder}/ex00/btc",
 			"args": ["input.txt"],
 			"cwd": "${workspaceFolder}/ex00"
