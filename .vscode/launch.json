@@ -9,7 +9,7 @@
 			"request": "launch",
 			"name": "Debug",
 			"program": "${workspaceFolder}/ex00/btc",
-			"args": ["1990-01-25"],
+			"args": ["input.txt"],
 			"cwd": "${workspaceFolder}/ex00"
 		}
 	]

@@ -6,7 +6,7 @@
 /*   By: bducrocq <bducrocq@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 02:49:08 by bducrocq          #+#    #+#             */
-/*   Updated: 2023/03/18 19:41:33 by bducrocq         ###   ########lyon.fr   */
+/*   Updated: 2023/03/18 22:52:42 by bducrocq         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void BitcoinExchange::openAndParseDataBase()
 		throw FailToOpen();
 	std::getline(input, line);
 	if (!line.compare("date,exchange_rate\n"))
-		throw DataBaseFirstLine();
+		throw ErrDataBaseFirstLine();
 	while(std::getline(input, line))
 	{
 		std::istringstream	lineStream(line);
@@ -106,34 +106,38 @@ void BitcoinExchange::parsingInput(char const *path)
 	if (!input.is_open())
 		throw FailToOpen();
 	std::getline(input, line);
-	if (!line.compare("date | value\n"))
-		throw InputFirstLine();
+	std::string::iterator ite = line.end();
+	ite--;
+	for (; *ite == ' '|| *ite == '\n'; ite--)
+		line.erase(ite);
+	if (line.compare("date | value"))
+		throw ErrInputFirstLine();
 	while (std::getline(input, line))
 	{
 		std::istringstream lineStream(line);
 		std::string date;
 		std::string value;
-
-		if (getline(lineStream, date, '|') && lineStream >> value)
+		try
 		{
-			try
+			if (getline(lineStream, date, '|'))
 			{
-				if (!isValueValid(value))
+				lineStream >> value;
+				if (value.empty() || !isDateFormatValid(date) || !isValueValid(value))
 				{
 					_errDay = date;
-					throw BadInput();
+					throw ErrBadInput();
 				}
 				float quantity = std::strtod(value.c_str(), NULL);
 				std::cout << date << " => " << value << " = " << (getBitcoinPrice(date) * quantity) << std::endl;
 			}
-			catch (BadInput const &e)
-			{
-				std::cout << e.what() << _errDay << std::endl;
-			}
-			catch (std::exception const &e)
-			{
-				std::cout << e.what() << std::endl;
-			}
+		}
+		catch (ErrBadInput const &e)
+		{
+			std::cerr << e.what() << _errDay << std::endl;
+		}
+		catch (std::exception const &e)
+		{
+			std::cerr << e.what() << std::endl;
 		}
 	}
 	input.close();
@@ -148,12 +152,14 @@ bool BitcoinExchange::isDateFormatValid(std::string const &dateString)
 	int	i = 0;
 	while(std::getline(stream, buffer, '-'))
 	{
-		// std::cerr << COLOR_BLUE << buffer << COLOR_NONE << std::endl;
+		if (i == 2)
+			if (buffer[buffer.size() - 1] == ' ')
+				buffer.erase(buffer.size() - 1);
 		for(std::string::iterator it = buffer.begin(); it != buffer.end(); it++)
 			if (std::isdigit(*it) == 0) {
 				_err = "Error: date has not digit"; return false; }
 		if (i != 0)
-			if (buffer.length() != 2){  //TODO: gerer les 1 et 01 etc ?
+			if (buffer.length() != 2){
 				_err = "Error: bad date input"; return false; }
 
 		value[i++] = std::atoi(buffer.c_str());
@@ -184,15 +190,18 @@ bool	BitcoinExchange::isValueValid(std::string const &value)
 
 	for (std::string::iterator it = nbr.begin(); it != nbr.end(); it++)
 		if (std::isdigit(*it) == 0)
-			return false;
+		{
+			if (*it == '-')
+				throw ErrNegativeNumber();
+			else
+				return false;
+		}
 	for (std::string::iterator it = subNbr.begin(); it != subNbr.end(); it++)
 		if (std::isdigit(*it) == 0)
-			return false;
-	float	ret = std::strtof(value.c_str(), NULL);
-	if (ret < 0.0)
-		throw NegativeNumber();
-	else if (ret >= 1000.0)
-		throw TooLargeNumber();
+			throw ErrBadInput();
+	float ret = std::strtof(value.c_str(), NULL);
+	if (ret >= 1000.0)
+		throw ErrTooLargeNumber();
 	else
 		return true;
 }
@@ -214,6 +223,7 @@ bool	BitcoinExchange::isPriceValid(std::string const &price)
 			return false;
 	return true;
 }
+
 /*
 ** --------------------------------- ACCESSOR ---------------------------------
 */
@@ -226,7 +236,6 @@ float	BitcoinExchange::getBitcoinPrice(std::string const &date)
 		it = _map.lower_bound(date);
 		it--;
 	}
-	// FIXME: std::cerr << std::endl << "DATE FIND: " << it->first << " | Date SEARCH: " << date << std::endl;
 	if (it == _map.begin())
 		return 0.0;
 	return (static_cast<float>(it->second));
