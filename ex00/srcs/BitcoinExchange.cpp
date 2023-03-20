@@ -6,7 +6,7 @@
 /*   By: bducrocq <bducrocq@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 02:49:08 by bducrocq          #+#    #+#             */
-/*   Updated: 2023/03/18 23:47:40 by bducrocq         ###   ########lyon.fr   */
+/*   Updated: 2023/03/20 13:11:09 by bducrocq         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void BitcoinExchange::openAndParseDataBase()
 	std::string			line;
 
 	if (!input.is_open())
-		throw FailToOpen();
+		throw std::runtime_error("\033[0;31mError: could not open \033[0;35mdata.csv\033[0;37m");
 	std::getline(input, line);
 	if (!line.compare("date,exchange_rate\n"))
 		throw ErrDataBaseFirstLine();
@@ -195,7 +195,7 @@ bool	BitcoinExchange::isValueValid(std::string const &value)
 		if (std::isdigit(*it) == 0)
 			throw ErrBadInput();
 	float ret = std::strtof(value.c_str(), NULL);
-	if (ret >= 1000.0)
+	if (ret > 1000.0)
 		throw ErrTooLargeNumber();
 	else
 		return true;
