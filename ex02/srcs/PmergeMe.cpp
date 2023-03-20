@@ -6,7 +6,7 @@
 /*   By: bducrocq <bducrocq@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 18:00:34 by bducrocq          #+#    #+#             */
-/*   Updated: 2023/03/21 00:25:28 by bducrocq         ###   ########lyon.fr   */
+/*   Updated: 2023/03/21 00:26:46 by bducrocq         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,41 +81,28 @@ std::ostream &			operator<<( std::ostream & o, PmergeMe const & i )
 void PmergeMe::lstInsertionSort(std::list<int> &lst)
 {
 
-	int size = lst.size();
-	for (int i = 1; i < size; ++i)
+	if (lst.empty())
+		return;
+
+	for (std::list<int>::iterator it = ++lst.begin(); it != lst.end(); ++it)
 	{
-		int key = lst[i];
-		int j = i - 1;
+		int key = *it;
+		std::list<int>::iterator jt = it;
+		--jt;
 
-		while (j >= 0 && lst[j] > key)
+		while (jt != lst.begin() && *jt > key)
 		{
-			lst[j + 1] = lst[j];
-			--j;
+			std::advance(jt, 1);
+			*jt = *(jt);
+			std::advance(jt, -1);
 		}
-		lst[j + 1] = key;
+
+		if (*jt > key)
+		{
+			std::advance(jt, 1);
+		}
+		*jt = key;
 	}
-	// if (lst.empty())
-	// 	return;
-
-	// for (std::list<int>::iterator it = ++lst.begin(); it != lst.end(); ++it)
-	// {
-	// 	int key = *it;
-	// 	std::list<int>::iterator jt = it;
-	// 	--jt;
-
-	// 	while (jt != lst.begin() && *jt > key)
-	// 	{
-	// 		std::advance(jt, 1);
-	// 		*jt = *(jt);
-	// 		std::advance(jt, -1);
-	// 	}
-
-	// 	if (*jt > key)
-	// 	{
-	// 		std::advance(jt, 1);
-	// 	}
-	// 	*jt = key;
-	// }
 }
 
 void PmergeMe::lstMerge(std::list<int> &lst, int left, int mid, int right)
