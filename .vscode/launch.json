@@ -11,6 +11,15 @@
 			"program": "${workspaceFolder}/ex00/btc",
 			"args": ["input.txt"],
 			"cwd": "${workspaceFolder}/ex00"
+		},
+		{
+			"type": "lldb",
+			"request": "launch",
+			"name": "ex01_debug",
+			"program": "${workspaceFolder}/ex01/RPN",
+			"args": ["  8 9 * 9 +"],
+			"cwd": "${workspaceFolder}/ex01"
 		}
 	]
+	
 }

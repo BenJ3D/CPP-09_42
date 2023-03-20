@@ -6,7 +6,7 @@
 /*   By: bducrocq <bducrocq@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 00:03:53 by bducrocq          #+#    #+#             */
-/*   Updated: 2023/03/19 00:09:38 by bducrocq         ###   ########lyon.fr   */
+/*   Updated: 2023/03/20 15:15:12 by bducrocq         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,32 @@
 
 # include <iostream>
 # include <string>
+# include <sstream>
+# include <cstdlib>
+# include <stdexcept>
+# include <stack>
 
 class RPN
 {
 
 	public:
 
-		RPN();
-		RPN( RPN const & src );
+		RPN(std::string & expression);
 		~RPN();
 
 		class Error : public std::exception
 		{ public: virtual const char *what() const throw() {return "Error";}};
 
-		
 		RPN &		operator=( RPN const & rhs );
+
+
 	private:
+		RPN();
+		RPN( RPN const & src );
+
+		bool	isOperator( char c );
+
+		std::stack<int>	_stack;
 
 };
 
