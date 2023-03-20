@@ -6,13 +6,13 @@
 #    By: bducrocq <bducrocq@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/29 16:05:24 by cfatrane          #+#    #+#              #
-#    Updated: 2023/03/20 18:07:47 by bducrocq         ###   ########lyon.fr    #
+#    Updated: 2023/03/20 18:07:22 by bducrocq         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
 # Binary 
 
-NAME = RPN
+NAME = PmergeMe
 
 # Path
 
@@ -23,11 +23,11 @@ OBJ_PATH = ./objs/
 
 CPPFLAGS = -I./includes/
 
-HEADER =	./includes/RPN.hpp
+HEADER =	./includes/PmergeMe.hpp
 
 # Name
 
-SRC_NAME =	main.cpp RPN.cpp
+SRC_NAME =	main.cpp PmergeMe.cpp
 
 OBJ_NAME = $(SRC_NAME:.cpp=.o)
 
@@ -41,9 +41,9 @@ OBJ = $(addprefix $(OBJ_PATH), $(OBJ_NAME))
 
 CC = c++ $(STDCPP) $(CFLAGS) $(SANITIZE) $(LLDBFLAG)
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS =# -Wall -Wextra# -Werror
 SANITIZE =# -fsanitize=address
-LLDBFLAG =# -g3
+LLDBFLAG = -g3
 STDCPP = -std=c++98
 
 # Rules

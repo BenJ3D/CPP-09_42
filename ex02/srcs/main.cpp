@@ -6,24 +6,20 @@
 /*   By: bducrocq <bducrocq@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 13:59:03 by bducrocq          #+#    #+#             */
-/*   Updated: 2023/03/20 18:00:58 by bducrocq         ###   ########lyon.fr   */
+/*   Updated: 2023/03/21 00:24:25 by bducrocq         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/RPN.hpp"
+#include "../includes/PmergeMe.hpp"
 
 int main(int ac, char **av)
 {
 	try
 	{
-		if (ac == 2)
-		{
-			std::string		expstr(av[1]);
-			RPN				exp(expstr);
-		}
-		else
-			throw RPN::RPN::Error();
-
+		if (ac < 2)
+			throw PmergeMe::PmergeMe::Error();
+		PmergeMe	merge(ac, av);
+		std::cout << "Hello World!" << std::endl;
 	}
 	catch(std::exception const& e) 
 	{std::cerr << e.what() << std::endl;}
