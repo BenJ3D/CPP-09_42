@@ -6,7 +6,7 @@
 /*   By: bducrocq <bducrocq@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 00:03:53 by bducrocq          #+#    #+#             */
-/*   Updated: 2023/03/20 15:15:12 by bducrocq         ###   ########lyon.fr   */
+/*   Updated: 2023/03/20 17:52:04 by bducrocq         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ class RPN
 		~RPN();
 
 		class Error : public std::exception
-		{ public: virtual const char *what() const throw() {return "Error";}};
+		{ public: virtual const char *what() const throw() {return "\033[0;31mError\033[0;37m";}};
 
 		RPN &		operator=( RPN const & rhs );
 
@@ -43,8 +43,6 @@ class RPN
 		std::stack<int>	_stack;
 
 };
-
-std::ostream &			operator<<( std::ostream & o, RPN const & i );
 
 # define COLOR_BLACK	"\033[0;30m"
 # define COLOR_RED		"\033[0;31m"

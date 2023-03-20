@@ -6,7 +6,7 @@
 /*   By: bducrocq <bducrocq@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 00:03:53 by bducrocq          #+#    #+#             */
-/*   Updated: 2023/03/20 15:28:54 by bducrocq         ###   ########lyon.fr   */
+/*   Updated: 2023/03/20 17:54:44 by bducrocq         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ RPN::RPN(std::string &exp)
 	
 	for (; std::isspace(*it); it++);
 	if (!std::isdigit(*it))
-		throw std::runtime_error("Error");
+		throw Error();
 	for(; it != exp.end(); it++)
 	{
 		char	op = '\0';
@@ -43,7 +43,7 @@ RPN::RPN(std::string &exp)
 		if (isOperator(*it))
 		{
 			if (_stack.empty())
-				throw std::runtime_error("Error");
+				throw Error();
 			op = *it;
 			int b = _stack.top();
 			_stack.pop();
@@ -71,13 +71,15 @@ RPN::RPN(std::string &exp)
 			a = 0; b = 0;
 		}
 		else if (!std::isdigit(*it))
-			throw std::runtime_error("Error");
+			throw Error();
 		else
 		{
 			int	n = *it - '0';
 			_stack.push(n);
 		}
 	}
+	if (_stack.size() != 1 )
+		throw Error();
 	std::cout << _stack.top() << std::endl;
 	_stack.pop();
 }
@@ -93,17 +95,7 @@ RPN::~RPN()
 
 RPN &				RPN::operator=( RPN const & rhs )
 {
-	//if ( this != &rhs )
-	//{
-		//this->_value = rhs.getValue();
-	//}
 	return *this;
-}
-
-std::ostream &			operator<<( std::ostream & o, RPN const & i )
-{
-	//o << "Value = " << i.getValue();
-	return o;
 }
 
 
