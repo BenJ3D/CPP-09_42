@@ -6,7 +6,7 @@
 #    By: bducrocq <bducrocq@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/29 16:05:24 by cfatrane          #+#    #+#              #
-#    Updated: 2023/03/18 23:56:25 by bducrocq         ###   ########lyon.fr    #
+#    Updated: 2023/03/21 02:05:58 by bducrocq         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ CC = c++ $(STDCPP) $(CFLAGS) $(SANITIZE) $(LLDBFLAG)
 
 CFLAGS = -Wall -Wextra -Werror
 SANITIZE =# -fsanitize=address
-LLDBFLAG = -g3
+LLDBFLAG = #-g3
 STDCPP = -std=c++98
 
 # Rules

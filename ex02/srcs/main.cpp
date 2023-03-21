@@ -6,7 +6,7 @@
 /*   By: bducrocq <bducrocq@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 13:59:03 by bducrocq          #+#    #+#             */
-/*   Updated: 2023/03/21 00:24:25 by bducrocq         ###   ########lyon.fr   */
+/*   Updated: 2023/03/21 01:58:46 by bducrocq         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int main(int ac, char **av)
 		if (ac < 2)
 			throw PmergeMe::PmergeMe::Error();
 		PmergeMe	merge(ac, av);
-		std::cout << "Hello World!" << std::endl;
 	}
 	catch(std::exception const& e) 
 	{std::cerr << e.what() << std::endl;}
