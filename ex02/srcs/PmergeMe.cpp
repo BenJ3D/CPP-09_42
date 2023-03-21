@@ -6,7 +6,7 @@
 /*   By: bducrocq <bducrocq@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 18:00:34 by bducrocq          #+#    #+#             */
-/*   Updated: 2023/03/21 02:55:20 by bducrocq         ###   ########lyon.fr   */
+/*   Updated: 2023/03/21 03:06:12 by bducrocq         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,29 @@ void PmergeMe::lstInsertionSort(std::list<int> &lst)
 	}
 }
 
+void PmergeMe::lstMerge(std::list<int>::iterator left,
+					std::list<int>::iterator mid, std::list<int>::iterator right)
+{
+	std::list<int> L(left, mid);
+	std::list<int> R(mid, right);
+
+	std::list<int>::iterator itL = L.begin(), itR = R.begin();
+
+	for (std::list<int>::iterator it = left; it != right; ++it)
+	{
+		if (itL != L.end() && (itR == R.end() || *itL <= *itR))
+		{
+			*it = *itL;
+			++itL;
+		}
+		else if (itR != R.end())
+		{
+			*it = *itR;
+			++itR;
+		}
+	}
+}
+
 void PmergeMe::lstMergeInsertSort(std::list<int> &lst,
 			std::list<int>::iterator left, std::list<int>::iterator right, int k)
 {
@@ -161,31 +184,6 @@ void PmergeMe::vecMerge(std::vector<int>::iterator left,
 		}
 	}
 }
-
-
-void PmergeMe::lstMerge(std::list<int>::iterator left,
-					std::list<int>::iterator mid, std::list<int>::iterator right)
-{
-	std::list<int> L(left, mid);
-	std::list<int> R(mid, right);
-
-	std::list<int>::iterator itL = L.begin(), itR = R.begin();
-
-	for (std::list<int>::iterator it = left; it != right; ++it)
-	{
-		if (itL != L.end() && (itR == R.end() || *itL <= *itR))
-		{
-			*it = *itL;
-			++itL;
-		}
-		else if (itR != R.end())
-		{
-			*it = *itR;
-			++itR;
-		}
-	}
-}
-
 
 void PmergeMe::vecMergeInsertSort(std::vector<int> &vec, 
 	std::vector<int>::iterator left, std::vector<int>::iterator right, int k)
