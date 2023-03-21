@@ -6,13 +6,13 @@
 /*   By: bducrocq <bducrocq@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 18:00:34 by bducrocq          #+#    #+#             */
-/*   Updated: 2023/03/21 02:30:42 by bducrocq         ###   ########lyon.fr   */
+/*   Updated: 2023/03/21 02:47:40 by bducrocq         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PMERGEME_HPP
 # define PMERGEME_HPP
-# define CUT_SETTING 500
+// # define CUT_SETTING 500
 # include <iostream>
 # include <iomanip>
 # include <iostream>
@@ -48,11 +48,6 @@ class PmergeMe
 		std::vector<int>	_vec;
 		std::list<int>		_lst;
 		int					_nbrElements;
-		clock_t				_vecSortTimeStart;
-		clock_t				_vecSortTimeEnd;
-		clock_t				_lstSortTimeStart;
-		clock_t				_lstSortTimeEnd;
-
 
 		PmergeMe();
 		PmergeMe( PmergeMe const & src );
@@ -66,5 +61,14 @@ class PmergeMe
 		void lstMergeInsertSort(std::list<int> &lst, std::list<int>::iterator left, std::list<int>::iterator right, int k);
 
 };
+
+# define COLOR_BLACK	"\033[0;30m"
+# define COLOR_RED		"\033[0;31m"
+# define COLOR_GREEN	"\033[0;32m"
+# define COLOR_YELLOW	"\033[0;33m"
+# define COLOR_BLUE		"\033[0;34m"
+# define COLOR_PURPLE	"\033[0;35m"
+# define COLOR_CYAN		"\033[0;36m"
+# define COLOR_NONE		"\033[0;37m"
 
 #endif /* ******************************************************** PMERGEME_H */

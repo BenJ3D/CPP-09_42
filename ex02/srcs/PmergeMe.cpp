@@ -6,7 +6,7 @@
 /*   By: bducrocq <bducrocq@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 18:00:34 by bducrocq          #+#    #+#             */
-/*   Updated: 2023/03/21 02:36:55 by bducrocq         ###   ########lyon.fr   */
+/*   Updated: 2023/03/21 02:55:20 by bducrocq         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,28 +34,27 @@ PmergeMe::PmergeMe(int ac, char **av)
 	}
 
 	// Afficher le contenu de vector "Before"
-	std::cout << "Before: ";
+	std::cout << "\033[0;33mBefore: \033[0;35m";
 	for (std::vector<int>::iterator it =  _vec.begin(); it != _vec.end(); ++it)
 		std::cout << *it << " ";
 	std::cout << std::endl;
 	_nbrElements = _vec.size();
-	int cut = _nbrElements;
+	int cut = _nbrElements / 2;
 	timeval start_vec, end_vec, start_lst, end_lst;
 	gettimeofday(&start_vec, NULL);
 	vecMergeInsertSort(_vec, _vec.begin(), _vec.end(), cut);
 	gettimeofday(&end_vec, NULL);
 	long elapsed_time_vec = (end_vec.tv_sec - start_vec.tv_sec) * 1000000 + (end_vec.tv_usec - start_vec.tv_usec);
-
 	gettimeofday(&start_lst, NULL);
 	lstMergeInsertSort(_lst, _lst.begin(), _lst.end(), cut);
 	gettimeofday(&end_lst, NULL);
 	long elapsed_time_lst = (end_lst.tv_sec - start_lst.tv_sec) * 1000000 + (end_lst.tv_usec - start_lst.tv_usec);
 
 	// Afficher le contenu de vector "After"
-	std::cout << "After: ";
+	std::cout << "\033[0;33mAfter: \033[0;32m";
 	for (std::vector<int>::iterator it = _vec.begin(); it != _vec.end(); ++it)
 		std::cout << *it << " ";
-	std::cout << std::endl;
+	std::cout << COLOR_NONE << std::endl;
 	std::cout << "Time to process a range of "<< _nbrElements << " elements with std::vector<int>	: " << std::setw(12) << std::right << elapsed_time_vec << " us" << std::endl;
 	std::cout << "Time to process a range of "<< _nbrElements << " elements with std::list<int>	: " << std::setw(12) << std::right << elapsed_time_lst << " us" << std::endl;
 }
@@ -144,39 +143,6 @@ void PmergeMe::vecInsertionSort(std::vector<int> &vec)
 void PmergeMe::vecMerge(std::vector<int>::iterator left, 
 				std::vector<int>::iterator mid, std::vector<int>::iterator right)
 {
-	// std::vector<int> L(left, mid);
-	// std::vector<int> R(mid, right);
-
-	// std::vector<int>::iterator i = L.begin(), j = R.begin(), k = left;
-
-	// while (i != L.end() && j != R.end())
-	// {
-	// 	if (*i <= *j)
-	// 	{
-	// 		*k = *i;
-	// 		++i;
-	// 	}
-	// 	else
-	// 	{
-	// 		*k = *j;
-	// 		++j;
-	// 	}
-	// 	++k;
-	// }
-
-	// while (i != L.end())
-	// {
-	// 	*k = *i;
-	// 	++i;
-	// 	++k;
-	// }
-
-	// while (j != R.end())
-	// {
-	// 	*k = *j;
-	// 	++j;
-	// 	++k;
-	// }
 	std::vector<int> L(left, mid);
 	std::vector<int> R(mid, right);
 	std::vector<int>::iterator itL = L.begin(), itR = R.begin();
