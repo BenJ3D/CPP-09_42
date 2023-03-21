@@ -33,14 +33,24 @@ RPN::RPN(std::string &exp)
 		for (; std::isspace(*it); it++);
 		if (isOperator(*it))
 		{
+			long a = 0;
+			long b = 0;
 			if (_stack.empty())
 				throw Error();
 			op = *it;
-			int b = _stack.top();
-			_stack.pop();
-			int a = _stack.top();
-			_stack.pop();
-			int ret = 0;
+			if (!_stack.empty())
+			{
+				b = _stack.top();
+				_stack.pop();
+			}
+			if (!_stack.empty())
+			{
+				a = _stack.top();
+				_stack.pop();
+			}
+			else if (op == '/')
+				a = 1;
+			long ret = 0;
 			switch (op)
 			{
 			case '+':
@@ -58,7 +68,9 @@ RPN::RPN(std::string &exp)
 			default:
 				break;
 			}
-			_stack.push(ret);
+			if (ret > INT_MAX)
+				throw	std::runtime_error("Error: the result is greater than an int max");
+			_stack.push(static_cast<int>(ret));
 			a = 0; b = 0;
 		}
 		else if (!std::isdigit(*it))

@@ -43,7 +43,7 @@ CC = c++ $(STDCPP) $(CFLAGS) $(SANITIZE) $(LLDBFLAG)
 
 CFLAGS = -Wall -Wextra -Werror
 SANITIZE =# -fsanitize=address
-LLDBFLAG =# -g3
+LLDBFLAG = -g3
 STDCPP = -std=c++98
 
 # Rules

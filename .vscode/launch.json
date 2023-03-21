@@ -17,7 +17,7 @@
 			"request": "launch",
 			"name": "ex01_debug",
 			"program": "${workspaceFolder}/ex01/RPN",
-			"args": ["  8 9 * 9 +"],
+			"args": ["55+"],
 			"cwd": "${workspaceFolder}/ex01"
 		}
 	]

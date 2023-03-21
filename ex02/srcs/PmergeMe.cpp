@@ -32,14 +32,13 @@ PmergeMe::PmergeMe(int ac, char **av)
 		_vec.push_back(static_cast<int>(nb));
 		_lst.push_back(static_cast<int>(nb));
 	}
-
 	// Afficher le contenu de vector "Before"
 	std::cout << "\033[0;33mBefore: \033[0;35m";
 	for (std::vector<int>::iterator it =  _vec.begin(); it != _vec.end(); ++it)
 		std::cout << *it << " ";
 	std::cout << std::endl;
 	_nbrElements = _vec.size();
-	int cut = _nbrElements / 2;
+	int cut = _nbrElements / 10;
 	timeval start_vec, end_vec, start_lst, end_lst;
 	gettimeofday(&start_vec, NULL);
 	vecMergeInsertSort(_vec, _vec.begin(), _vec.end(), cut);

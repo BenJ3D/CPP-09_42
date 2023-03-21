@@ -66,7 +66,7 @@ void BitcoinExchange::openAndParseDataBase()
 	std::string			line;
 
 	if (!input.is_open())
-		throw std::runtime_error("\033[0;31mError: could not open \033[0;35mdata.csv\033[0;37m");
+		throw std::runtime_error("\033[0;31mError: could not open \033[0;35mdata.csv.\033[0;37m");
 	std::getline(input, line);
 	if (!line.compare("date,exchange_rate\n"))
 		throw ErrDataBaseFirstLine();
@@ -106,7 +106,9 @@ void BitcoinExchange::parsingInput(char const *path)
 	for (; *ite == ' '|| *ite == '\n'; ite--)
 		line.erase(ite);
 	if (line.compare("date | value"))
-		throw ErrInputFirstLine();
+		std::cerr << "\033[0;33mWARNING: \033[0;37mfirst line is not \"date | value\" and will be ignored " << std::endl;
+	// if (line.compare("date | value")) // alternative gestion error 
+	// 	throw ErrInputFirstLine();
 	while (std::getline(input, line))
 	{
 		std::istringstream lineStream(line);
@@ -167,8 +169,6 @@ bool BitcoinExchange::isDateFormatValid(std::string const &dateString)
 		return false; 
 	if (value[1] > 12 || value[2] > 31)
 		return false;
-	// if (value[2] > 31)
-	// 	return false;
 	return true;
 }
 
@@ -227,7 +227,10 @@ float	BitcoinExchange::getBitcoinPrice(std::string const &date)
 	if (it == _map.end())
 	{
 		it = _map.lower_bound(date);
-		it--;
+		if (it != _map.begin())
+			it--;
+		else
+			throw std::runtime_error("\033[0;31mError: date is too early.\033[0;37m");
 	}
 	if (it == _map.begin())
 		return 0.0;
