@@ -6,7 +6,7 @@
 /*   By: bducrocq <bducrocq@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 02:49:08 by bducrocq          #+#    #+#             */
-/*   Updated: 2023/03/20 13:11:09 by bducrocq         ###   ########lyon.fr   */
+/*   Updated: 2023/03/21 03:13:28 by bducrocq         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,14 +163,12 @@ bool BitcoinExchange::isDateFormatValid(std::string const &dateString)
 	}
 	if (std::getline(stream, buffer, '-'))
 		return false; 
-	if (value[0] < 0 || value[1] < 0 || value[2] < 0) 
+	if (value[0] <= 0 || value[1] <= 0 || value[2] <= 0) 
 		return false; 
-	if (value[0] == 0 || value[1] == 0 || value[2] == 0)
+	if (value[1] > 12 || value[2] > 31)
 		return false;
-	if (value[1] > 12)
-		return false;
-	if (value[2] > 31)
-		return false;
+	// if (value[2] > 31)
+	// 	return false;
 	return true;
 }
 
