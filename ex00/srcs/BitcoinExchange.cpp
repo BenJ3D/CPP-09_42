@@ -6,7 +6,7 @@
 /*   By: bducrocq <bducrocq@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 02:49:08 by bducrocq          #+#    #+#             */
-/*   Updated: 2023/03/21 03:13:28 by bducrocq         ###   ########lyon.fr   */
+/*   Updated: 2023/03/22 00:02:01 by bducrocq         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ BitcoinExchange::~BitcoinExchange()
 ** --------------------------------- OVERLOAD ---------------------------------
 */
 
-BitcoinExchange &				BitcoinExchange::operator=( BitcoinExchange const & rhs )
+BitcoinExchange &	BitcoinExchange::operator=( BitcoinExchange const & rhs )
 {
 	if ( this != &rhs )
 	{
@@ -111,14 +111,20 @@ void BitcoinExchange::parsingInput(char const *path)
 	// 	throw ErrInputFirstLine();
 	while (std::getline(input, line))
 	{
+		line = fix_convertDecimalFrToEn(line);
 		std::istringstream lineStream(line);
 		std::string date;
 		std::string value;
+		std::string errArg;
+
 		try
 		{
 			if (getline(lineStream, date, '|'))
 			{
 				lineStream >> value;
+				lineStream >> errArg;
+				if (!errArg.empty())
+					throw ErrValue();
 				if (value.empty() || !isDateFormatValid(date) || !isValueValid(value))
 				{
 					_errDay = date;
@@ -177,7 +183,12 @@ bool	BitcoinExchange::isValueValid(std::string const &value)
 	std::istringstream	fnbr(value);
 	std::string			nbr;
 	std::string			subNbr;
-
+	int					i = 0;
+	for (std::string::const_iterator it = value.begin(); it != value.end() ;++it)
+		if (*it == '.')
+			i++;
+	if (i > 1)
+		throw ErrValue();
 	std::getline(fnbr, nbr, '.');
 	fnbr >> subNbr;
 
@@ -193,7 +204,7 @@ bool	BitcoinExchange::isValueValid(std::string const &value)
 		if (std::isdigit(*it) == 0)
 			throw ErrBadInput();
 	float ret = std::strtof(value.c_str(), NULL);
-	if (ret > 1000.0)
+	if (ret >= 1000.0)
 		throw ErrTooLargeNumber();
 	else
 		return true;
@@ -215,6 +226,15 @@ bool	BitcoinExchange::isPriceValid(std::string const &price)
 		if (std::isdigit(*it) == 0)
 			return false;
 	return true;
+}
+
+std::string  BitcoinExchange::fix_convertDecimalFrToEn(std::string &line)
+{
+	std::string::iterator it = line.begin();
+	for (; it != line.end(); ++it)
+		if (*it == ',')
+			*it = '.';
+	return line;
 }
 
 /*

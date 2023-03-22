@@ -6,7 +6,7 @@
 /*   By: bducrocq <bducrocq@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 02:49:09 by bducrocq          #+#    #+#             */
-/*   Updated: 2023/03/18 23:47:38 by bducrocq         ###   ########lyon.fr   */
+/*   Updated: 2023/03/21 23:13:29 by bducrocq         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,11 @@ class BitcoinExchange
 			virtual const char* what() const throw() 
 			{return "\033[0;31mError: too large a number.\033[0;37m";}
 		};
+		class ErrValue : public std::exception
+		{ public: 
+			virtual const char* what() const throw() 
+			{return "\033[0;31mError: bad value. (Please enter only one float valid value)\033[0;37m";}
+		};
 		class ErrBadInput : public std::exception
 		{ public: 
 			virtual const char* what() const throw() 
@@ -84,6 +89,7 @@ class BitcoinExchange
 		bool			isValueValid(std::string const &value);
 		bool			isPriceValid(std::string const &price);
 
+		std::string		fix_convertDecimalFrToEn( std::string &line );
 		std::map<std::string, double>	_map;
 		std::string						_pathDB;
 		std::string						_errDay;

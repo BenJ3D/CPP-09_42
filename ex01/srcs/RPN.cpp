@@ -6,7 +6,7 @@
 /*   By: bducrocq <bducrocq@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 00:03:53 by bducrocq          #+#    #+#             */
-/*   Updated: 2023/03/20 18:37:56 by bducrocq         ###   ########lyon.fr   */
+/*   Updated: 2023/03/22 00:40:04 by bducrocq         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ RPN::RPN( const RPN & src ){*this = src;}
 
 RPN::RPN(std::string &exp)
 {
+	
 	std::string::const_iterator it = exp.begin();
 	
 	for (; std::isspace(*it); it++);
@@ -33,6 +34,8 @@ RPN::RPN(std::string &exp)
 		for (; std::isspace(*it); it++);
 		if (isOperator(*it))
 		{
+			if(_stack.size() < 2)
+				throw Error();
 			long a = 0;
 			long b = 0;
 			if (_stack.empty())
@@ -48,8 +51,6 @@ RPN::RPN(std::string &exp)
 				a = _stack.top();
 				_stack.pop();
 			}
-			else if (op == '/')
-				a = 1;
 			long ret = 0;
 			switch (op)
 			{
@@ -63,8 +64,13 @@ RPN::RPN(std::string &exp)
 				ret = a * b;
 				break;
 			case '/':
-				ret = a / b;
+			{
+				if (b != 0)
+					ret = a / b;
+				else
+					throw	std::runtime_error("Error: no possible divide by 0");
 				break;
+			}
 			default:
 				break;
 			}
